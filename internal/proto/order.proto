@@ -1,0 +1,71 @@
+syntax = "proto3";
+option go_package = ".";
+
+
+ service ORDER{ 
+    rpc CreateOrder(CreateOrderRequest)returns(CreateOrderResponse);
+    rpc UpdateOrder(UpdateOrderRequest)returns(Response);
+    rpc DeleteOrder(DeleteOrderRequest)returns(Response);
+    rpc GetOrder(GetOrderRequest)returns(GetOrderResponse);
+    rpc GetOrderByConsID(GetOrderByConsIDRequest)returns(GetOrderByConsIDResponse);
+    rpc GetOrderByVendID(GetOrderByVendIDRequest)returns(GetOrderByVendIDResponse);
+}
+
+message Order{
+    string orderid = 1;
+    string productid = 2;
+    string consumerid = 3;
+    string vendorid = 4;
+    uint64 amount = 5;
+    uint64 orderprice = 6;
+}
+
+
+message Response{}
+
+
+message CreateOrderRequest{
+    string productid = 1;
+    string consumerid = 2;
+    string vendorid = 3;
+    uint64 amount = 4;
+    uint64 orderprice = 5;
+}
+message CreateOrderResponse{
+    string orderid = 1;
+}
+
+
+
+message UpdateOrderRequest{
+    string orderid = 1;
+    Order order = 2;
+}
+
+message DeleteOrderRequest{
+    string orderid = 1;
+}
+
+
+message GetOrderRequest{
+    string orderid = 1;
+}
+message GetOrderResponse{
+    Order order = 1;
+}
+
+
+message GetOrderByConsIDRequest{
+    string consumerid = 1;
+}
+message GetOrderByConsIDResponse{
+    repeated Order order = 1;
+}
+
+
+message GetOrderByVendIDRequest{
+    string consumerid = 1;
+}
+message GetOrderByVendIDResponse{
+    repeated Order order = 1;
+}

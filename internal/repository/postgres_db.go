@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"githab.com/AlexeyBorisovets/ORDER/internal/model"
+	"github.com/AlexeyBorisovets/ORDER/internal/model"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
@@ -32,7 +32,7 @@ func (p *PRepository) GetOrderByID(ctx context.Context, orderID string) (*model.
 		&order.OrderID, &order.ProductID, &order.ConsumerID, &order.VendorID, &order.Amount, &order.OrderPrice)
 	if err != nil {
 		if err == pgx.ErrNoRows {
-			return &model.Order{}, fmt.Errorf("No such order in db: %v", err)
+			return &model.Order{}, fmt.Errorf("error: no such order in db: %v", err)
 		}
 		log.Errorf("database error,GetOrderByID: %v", err)
 		return &model.Order{}, err
