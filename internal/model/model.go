@@ -1,6 +1,5 @@
 package model
 
-// Vendor : struct for vendor
 type Order struct {
 	OrderID    string `bson,json:"orderid"`
 	ProductID  string `bson,json:"productid"`
