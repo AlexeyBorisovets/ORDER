@@ -11,8 +11,6 @@ require (
 
 require (
 	github.com/VladZheleznov/shopping-basket v0.0.0-20221201203403-1e6fee136759
-	github.com/caarlos0/env/v6 v6.10.1 // indirect
-	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/mattn/go-colorable v0.1.11 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect

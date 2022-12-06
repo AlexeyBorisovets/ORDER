@@ -64,7 +64,7 @@ message GetOrderByConsIDResponse{
 
 
 message GetOrderByVendIDRequest{
-    string consumerid = 1;
+    string vendorid = 1;
 }
 message GetOrderByVendIDResponse{
     repeated Order order = 1;

@@ -76,3 +76,85 @@ func (s *Server) CreateOrder(ctx context.Context, request *proto_order.CreateOrd
 		return nil, fmt.Errorf("server: not enough money or not enough products at stock, %e", err)
 	}
 }
+
+func (s *Server) UpdateOrder(ctx context.Context, request *proto_order.UpdateOrderRequest) (*proto_order.Response, error) {
+	order := &model.Order{
+		ProductID:  request.Order.Productid,
+		VendorID:   request.Order.Vendorid,
+		ConsumerID: request.Order.Consumerid,
+		Amount:     uint(request.Order.Amount),
+		OrderPrice: uint(request.Order.Orderprice),
+	}
+	OrderID := request.GetOrderid()
+	err := s.se.UpdateOrder(ctx, OrderID, order)
+	if err != nil {
+		return nil, fmt.Errorf("server: error during updating order, %e", err)
+	}
+	return new(proto_order.Response), nil
+}
+
+func (s *Server) DeleteOrder(ctx context.Context, request *proto_order.DeleteOrderRequest) (*proto_order.Response, error) {
+	Order_id := request.GetOrderid()
+	err := s.se.DeleteUser(ctx, Order_id)
+	if err != nil {
+		return nil, fmt.Errorf("server: error during deletion order, %e", err)
+	}
+	return new(proto_order.Response), nil
+}
+
+func (s *Server) GetOrder(ctx context.Context, request *proto_order.GetOrderRequest) (*proto_order.GetOrderResponse, error) {
+	orderID := request.GetOrderid()
+	order, err := s.se.GetOrder(ctx, orderID)
+	if err != nil {
+		return nil, fmt.Errorf("server: error during getting order from DB, %e", err)
+	}
+	newOrder := &proto_order.Order{
+		Orderid:    request.Orderid,
+		Productid:  order.ProductID,
+		Vendorid:   order.VendorID,
+		Consumerid: order.ConsumerID,
+		Amount:     uint64(order.Amount),
+		Orderprice: uint64(order.OrderPrice),
+	}
+	return &proto_order.GetOrderResponse{Order: newOrder}, nil
+}
+
+func (s *Server) GetOrderByConsIDRequest(ctx context.Context, request *proto_order.GetOrderByConsIDRequest) (*proto_order.GetOrderByConsIDResponse, error) {
+	consID := request.GetConsumerid()
+	orders, err := s.se.GetOrdersByConsID(ctx, consID)
+	if err != nil {
+		return nil, fmt.Errorf("server: error during getting ordersbyconsID from DB, %e", err)
+	}
+	var buf []*proto_order.Order
+	for _, order := range orders {
+		order_proto := new(proto_order.Order)
+		order_proto.Orderid = order.OrderID
+		order_proto.Productid = order.ProductID
+		order_proto.Vendorid = order.VendorID
+		order_proto.Consumerid = order.ConsumerID
+		order_proto.Amount = uint64(order.Amount)
+		order_proto.Orderprice = uint64(order.OrderPrice)
+		buf = append(buf, order_proto)
+	}
+	return &proto_order.GetOrderByConsIDResponse{Order: buf}, nil
+}
+
+func (s *Server) GetOrderByVendIDRequest(ctx context.Context, request *proto_order.GetOrderByVendIDRequest) (*proto_order.GetOrderByVendIDResponse, error) {
+	consID := request.GetVendorid()
+	orders, err := s.se.GetOrdersByVendID(ctx, consID)
+	if err != nil {
+		return nil, fmt.Errorf("server: error during getting ordersbyvendID from DB, %e", err)
+	}
+	var buf []*proto_order.Order
+	for _, order := range orders {
+		order_proto := new(proto_order.Order)
+		order_proto.Orderid = order.OrderID
+		order_proto.Productid = order.ProductID
+		order_proto.Vendorid = order.VendorID
+		order_proto.Consumerid = order.ConsumerID
+		order_proto.Amount = uint64(order.Amount)
+		order_proto.Orderprice = uint64(order.OrderPrice)
+		buf = append(buf, order_proto)
+	}
+	return &proto_order.GetOrderByVendIDResponse{Order: buf}, nil
+}
