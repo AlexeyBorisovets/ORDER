@@ -77,7 +77,7 @@ func (s *Server) CreateOrder(ctx context.Context, request *proto_order.CreateOrd
 	}
 }
 
-func (s *Server) UpdateOrder(ctx context.Context, request *proto_order.UpdateOrderRequest) (*proto_order.Response, error) {
+func (s *Server) UpdateOrder(ctx context.Context, request *proto_order.UpdateOrderRequest) (*proto_order.SimpleResponse, error) {
 	order := &model.Order{
 		ProductID:  request.Order.Productid,
 		VendorID:   request.Order.Vendorid,
@@ -90,16 +90,16 @@ func (s *Server) UpdateOrder(ctx context.Context, request *proto_order.UpdateOrd
 	if err != nil {
 		return nil, fmt.Errorf("server: error during updating order, %e", err)
 	}
-	return new(proto_order.Response), nil
+	return new(proto_order.SimpleResponse), nil
 }
 
-func (s *Server) DeleteOrder(ctx context.Context, request *proto_order.DeleteOrderRequest) (*proto_order.Response, error) {
+func (s *Server) DeleteOrder(ctx context.Context, request *proto_order.DeleteOrderRequest) (*proto_order.SimpleResponse, error) {
 	Order_id := request.GetOrderid()
 	err := s.se.DeleteUser(ctx, Order_id)
 	if err != nil {
 		return nil, fmt.Errorf("server: error during deletion order, %e", err)
 	}
-	return new(proto_order.Response), nil
+	return new(proto_order.SimpleResponse), nil
 }
 
 func (s *Server) GetOrder(ctx context.Context, request *proto_order.GetOrderRequest) (*proto_order.GetOrderResponse, error) {

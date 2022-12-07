@@ -4,8 +4,8 @@ option go_package = ".";
 
  service ORDER{ 
     rpc CreateOrder(CreateOrderRequest)returns(CreateOrderResponse);
-    rpc UpdateOrder(UpdateOrderRequest)returns(Response);
-    rpc DeleteOrder(DeleteOrderRequest)returns(Response);
+    rpc UpdateOrder(UpdateOrderRequest)returns(SimpleResponse);
+    rpc DeleteOrder(DeleteOrderRequest)returns(SimpleResponse);
     rpc GetOrder(GetOrderRequest)returns(GetOrderResponse);
     rpc GetOrderByConsID(GetOrderByConsIDRequest)returns(GetOrderByConsIDResponse);
     rpc GetOrderByVendID(GetOrderByVendIDRequest)returns(GetOrderByVendIDResponse);
@@ -21,7 +21,7 @@ message Order{
 }
 
 
-message Response{}
+message SimpleResponse{}
 
 
 message CreateOrderRequest{

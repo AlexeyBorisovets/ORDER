@@ -23,8 +23,8 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ORDERClient interface {
 	CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*CreateOrderResponse, error)
-	UpdateOrder(ctx context.Context, in *UpdateOrderRequest, opts ...grpc.CallOption) (*Response, error)
-	DeleteOrder(ctx context.Context, in *DeleteOrderRequest, opts ...grpc.CallOption) (*Response, error)
+	UpdateOrder(ctx context.Context, in *UpdateOrderRequest, opts ...grpc.CallOption) (*SimpleResponse, error)
+	DeleteOrder(ctx context.Context, in *DeleteOrderRequest, opts ...grpc.CallOption) (*SimpleResponse, error)
 	GetOrder(ctx context.Context, in *GetOrderRequest, opts ...grpc.CallOption) (*GetOrderResponse, error)
 	GetOrderByConsID(ctx context.Context, in *GetOrderByConsIDRequest, opts ...grpc.CallOption) (*GetOrderByConsIDResponse, error)
 	GetOrderByVendID(ctx context.Context, in *GetOrderByVendIDRequest, opts ...grpc.CallOption) (*GetOrderByVendIDResponse, error)
@@ -47,8 +47,8 @@ func (c *oRDERClient) CreateOrder(ctx context.Context, in *CreateOrderRequest, o
 	return out, nil
 }
 
-func (c *oRDERClient) UpdateOrder(ctx context.Context, in *UpdateOrderRequest, opts ...grpc.CallOption) (*Response, error) {
-	out := new(Response)
+func (c *oRDERClient) UpdateOrder(ctx context.Context, in *UpdateOrderRequest, opts ...grpc.CallOption) (*SimpleResponse, error) {
+	out := new(SimpleResponse)
 	err := c.cc.Invoke(ctx, "/ORDER/UpdateOrder", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -56,8 +56,8 @@ func (c *oRDERClient) UpdateOrder(ctx context.Context, in *UpdateOrderRequest, o
 	return out, nil
 }
 
-func (c *oRDERClient) DeleteOrder(ctx context.Context, in *DeleteOrderRequest, opts ...grpc.CallOption) (*Response, error) {
-	out := new(Response)
+func (c *oRDERClient) DeleteOrder(ctx context.Context, in *DeleteOrderRequest, opts ...grpc.CallOption) (*SimpleResponse, error) {
+	out := new(SimpleResponse)
 	err := c.cc.Invoke(ctx, "/ORDER/DeleteOrder", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -97,8 +97,8 @@ func (c *oRDERClient) GetOrderByVendID(ctx context.Context, in *GetOrderByVendID
 // for forward compatibility
 type ORDERServer interface {
 	CreateOrder(context.Context, *CreateOrderRequest) (*CreateOrderResponse, error)
-	UpdateOrder(context.Context, *UpdateOrderRequest) (*Response, error)
-	DeleteOrder(context.Context, *DeleteOrderRequest) (*Response, error)
+	UpdateOrder(context.Context, *UpdateOrderRequest) (*SimpleResponse, error)
+	DeleteOrder(context.Context, *DeleteOrderRequest) (*SimpleResponse, error)
 	GetOrder(context.Context, *GetOrderRequest) (*GetOrderResponse, error)
 	GetOrderByConsID(context.Context, *GetOrderByConsIDRequest) (*GetOrderByConsIDResponse, error)
 	GetOrderByVendID(context.Context, *GetOrderByVendIDRequest) (*GetOrderByVendIDResponse, error)
@@ -112,10 +112,10 @@ type UnimplementedORDERServer struct {
 func (UnimplementedORDERServer) CreateOrder(context.Context, *CreateOrderRequest) (*CreateOrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
 }
-func (UnimplementedORDERServer) UpdateOrder(context.Context, *UpdateOrderRequest) (*Response, error) {
+func (UnimplementedORDERServer) UpdateOrder(context.Context, *UpdateOrderRequest) (*SimpleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrder not implemented")
 }
-func (UnimplementedORDERServer) DeleteOrder(context.Context, *DeleteOrderRequest) (*Response, error) {
+func (UnimplementedORDERServer) DeleteOrder(context.Context, *DeleteOrderRequest) (*SimpleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrder not implemented")
 }
 func (UnimplementedORDERServer) GetOrder(context.Context, *GetOrderRequest) (*GetOrderResponse, error) {
